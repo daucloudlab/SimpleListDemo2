@@ -3,6 +3,7 @@ package kz.abcsoft.simplelistdemo2;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,10 +25,15 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         lvMain = (ListView)findViewById(R.id.lvMain) ;
-        lvMain.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
+//        lvMain.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        lvMain.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.names,
+//                android.R.layout.simple_list_item_single_choice) ;
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.names,
-                android.R.layout.simple_list_item_single_choice) ;
+                android.R.layout.simple_list_item_multiple_choice) ;
+
         lvMain.setAdapter(adapter);
 
         Button btnChecked = (Button) findViewById(R.id.btnChecked);
@@ -38,7 +44,15 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
     public void onClick(View arg0) {
-        Log.d(LOG_TAG, "checked: " + names[lvMain.getCheckedItemPosition()]);
+        //Log.d(LOG_TAG, "checked: " + names[lvMain.getCheckedItemPosition()]);
+
+        Log.d(LOG_TAG, "checked: ");
+        SparseBooleanArray sbArray = lvMain.getCheckedItemPositions();
+        for (int i = 0; i < sbArray.size(); i++) {
+            int key = sbArray.keyAt(i);
+            if (sbArray.get(key))
+                Log.d(LOG_TAG, names[key]);
+        }
     }
 
     @Override
